@@ -1,17 +1,19 @@
 const express = require("express");
-const path = require("path");
+const {sequelize} = require("./models");
 
 const app = express();
-const PORT = 3000;
 
-app.use("/css", express.static(path.join(__dirname, "public/css")));
+app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "home.html"));
+sequelize
+  .sync({ alter: true })
+  .then(() => {
+    console.log("Database, table created");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+app.listen(3000, () => {
+  console.log("Server is running on port http://localhost:3000");
 });
-
-app.listen(PORT, () => {
-  console.log(`http://localhost:${PORT}`);
-});
-
-module.exports = app;
