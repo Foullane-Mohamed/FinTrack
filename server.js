@@ -1,19 +1,56 @@
 const express = require("express");
+const session = require("express-session");
+const path = require("path");
 const { sequelize } = require("./models");
 
 const app = express();
 
-app.use(express.json());
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  session({
+    secret: "fintrack-secret-key",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false,
+      maxAge: 24 * 60 * 60 * 1000,
+    },
+  })
+);
+
+// Routes
+const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/userRoutes");
+const transactionRoutes = require("./routes/transactionRoutes");
+const budgetRoutes = require("./routes/budgetRoutes");
+
+app.use("/auth", authRoutes);
+app.use("/user", userRoutes);
+app.use("/transactions", transactionRoutes);
+app.use("/budgets", budgetRoutes);
+
+// Root route
+app.get("/", (req, res) => {
+  res.redirect("/auth/login");
+});
+
+// Database connection
 sequelize
-  .sync({ alter: true })
+  .sync({ force: false })
   .then(() => {
-    console.log("Database, table created");
+    console.log("Database connected successfully");
   })
   .catch((err) => {
-    console.log(err);
+    console.log("Database connection error:", err);
   });
 
 app.listen(3000, () => {
-  console.log("Server is running on port http://localhost:3000");
+  console.log("Server is running on http://localhost:3000");
 });
