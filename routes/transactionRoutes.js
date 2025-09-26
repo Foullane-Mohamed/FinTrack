@@ -3,11 +3,10 @@ const router = express.Router();
 const transactionController = require("../controllers/transactionController");
 const { ensureAuth } = require("../middlewares/auth");
 
-// Apply authentication middleware to all transaction routes
 router.use(ensureAuth);
 
-// Transaction routes
 router.get("/", transactionController.getAllTransactions);
+router.get("/api", transactionController.getTransactionsAPI);
 router.get("/add", transactionController.renderAddTransaction);
 router.post("/add", transactionController.addTransaction);
 router.get("/edit/:id", transactionController.renderEditTransaction);

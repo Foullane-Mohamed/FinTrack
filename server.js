@@ -3,6 +3,11 @@ const session = require("express-session");
 const path = require("path");
 const { sequelize } = require("./models");
 
+const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/userRoutes");
+const transactionRoutes = require("./routes/transactionRoutes");
+const budgetRoutes = require("./routes/budgetRoutes");
+
 const app = express();
 
 app.set("view engine", "ejs");
@@ -25,23 +30,17 @@ app.use(
   })
 );
 
-// Routes
-const authRoutes = require("./routes/auth");
-const userRoutes = require("./routes/userRoutes");
-const transactionRoutes = require("./routes/transactionRoutes");
-const budgetRoutes = require("./routes/budgetRoutes");
+
 
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/transactions", transactionRoutes);
 app.use("/budgets", budgetRoutes);
 
-// Root route
 app.get("/", (req, res) => {
   res.redirect("/auth/login");
 });
 
-// Database connection
 sequelize
   .sync({ force: false })
   .then(() => {

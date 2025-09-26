@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const User = require("../models");
 const bcrypt = require("bcrypt");
 
 const getUserProfile = async (req, res) => {
@@ -32,7 +32,6 @@ const updateProfile = async (req, res) => {
     const { username, email, currency } = req.body;
     const userId = req.session.user.id;
 
-    // Check if username or email already exists for other users
     const existingUser = await User.findOne({
       where: {
         [require("sequelize").Op.or]: [{ email }, { username }],
@@ -54,10 +53,8 @@ const updateProfile = async (req, res) => {
       });
     }
 
-    // Update user
     await User.update({ username, email, currency }, { where: { id: userId } });
 
-    // Update session
     req.session.user.username = username;
     req.session.user.email = email;
 
