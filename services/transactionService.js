@@ -8,6 +8,13 @@ async function getTransactions(userId) {
   return await Transaction.findAll({ where: { UserId: userId } });
 }
 
+async function getTransactionById(id, userId) {
+  const transaction = await Transaction.findOne({
+    where: { id, UserId: userId },
+  });
+  if (!transaction) throw new Error("Transaction not found");
+  return transaction;
+}
 
 async function updateTransaction(id, userId, data) {
   const transaction = await Transaction.findOne({
@@ -28,6 +35,7 @@ async function deleteTransaction(id, userId) {
 module.exports = {
   createTransaction,
   getTransactions,
+  getTransactionById,
   updateTransaction,
   deleteTransaction,
 };

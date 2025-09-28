@@ -6,7 +6,6 @@ const { sequelize } = require("./models");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/userRoutes");
 const transactionRoutes = require("./routes/transactionRoutes");
-const budgetRoutes = require("./routes/budgetRoutes");
 
 const app = express();
 
@@ -30,21 +29,18 @@ app.use(
   })
 );
 
-
-
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/transactions", transactionRoutes);
-app.use("/budgets", budgetRoutes);
 
 app.get("/", (req, res) => {
   res.redirect("/auth/login");
 });
 
 sequelize
-  .sync({ force: false })
+  .sync({ force: true })
   .then(() => {
-    console.log("Database connected successfully");
+    console.log("Database connected successfully - Tables recreated");
   })
   .catch((err) => {
     console.log("Database connection error:", err);
