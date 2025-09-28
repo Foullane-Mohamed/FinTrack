@@ -4,7 +4,6 @@ const path = require("path");
 const { sequelize } = require("./models");
 
 const authRoutes = require("./routes/auth");
-const userRoutes = require("./routes/userRoutes");
 const transactionRoutes = require("./routes/transactionRoutes");
 
 const app = express();
@@ -30,7 +29,6 @@ app.use(
 );
 
 app.use("/auth", authRoutes);
-app.use("/user", userRoutes);
 app.use("/transactions", transactionRoutes);
 
 app.get("/", (req, res) => {

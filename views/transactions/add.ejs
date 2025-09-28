@@ -7,10 +7,6 @@
     <h1>Add Transaction</h1>
     <a href="/transactions">← Back</a>
 
-    <% if (error) { %>
-    <p style="color: red"><%= error %></p>
-    <% } %>
-
     <form method="POST">
       <p>Category: <input type="text" name="category" required /></p>
       <p>

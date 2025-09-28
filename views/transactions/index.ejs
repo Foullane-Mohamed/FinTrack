@@ -10,43 +10,49 @@
     <a href="/auth/logout">Logout</a>
 
     <h2>Your Transactions</h2>
-    <div id="transactions">Loading...</div>
 
-    <script>
-      fetch("/transactions/api")
-        .then((res) => res.json())
-        .then((data) => {
-          let html =
-            '<table border="1"><tr><th>Date</th><th>Category</th><th>Type</th><th>Amount</th><th>Actions</th></tr>';
-          data.forEach((t) => {
-            html += `<tr>
-                        <td>${new Date(t.date).toDateString()}</td>
-                        <td>${t.category}</td>
-                        <td>${t.type}</td>
-                        <td>$${t.amount}</td>
-                        <td>
-                            <a href="/transactions/edit/${t.id}">Edit</a> | 
-                            <a href="#" onclick="deleteTransaction(${
-                              t.id
-                            })">Delete</a>
-                        </td>
-                    </tr>`;
-          });
-          html += "</table>";
-          document.getElementById("transactions").innerHTML = html;
-        })
-        .catch(() => {
-          document.getElementById("transactions").innerHTML =
-            'No transactions found. <a href="/transactions/add">Add one</a>';
-        });
-
-      function deleteTransaction(id) {
-        if (confirm("Delete?")) {
-          fetch(`/transactions/delete/${id}`, { method: "POST" }).then(() =>
-            location.reload()
-          );
-        }
-      }
-    </script>
+    <% if (transactions.length > 0) { %>
+    <table border="1">
+      <tr>
+        <th>Date</th>
+        <th>Category</th>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Actions</th>
+      </tr>
+      <% transactions.forEach(function(transaction) { %>
+      <tr>
+        <td><%= new Date(transaction.date).toDateString() %></td>
+        <td><%= transaction.category %></td>
+        <td><%= transaction.type %></td>
+        <td>$<%= transaction.amount %></td>
+        <td>
+          <a href="/transactions/edit/<%= transaction.id %>">Edit</a> |
+          <form
+            style="display: inline"
+            method="POST"
+            action="/transactions/delete/<%= transaction.id %>"
+            onsubmit="return confirm('Delete this transaction?')"
+          >
+            <button
+              type="submit"
+              style="
+                background: none;
+                border: none;
+                color: blue;
+                text-decoration: underline;
+                cursor: pointer;
+              "
+            >
+              Delete
+            </button>
+          </form>
+        </td>
+      </tr>
+      <% }); %>
+    </table>
+    <% } else { %>
+    <p>No transactions found. <a href="/transactions/add">Add one</a></p>
+    <% } %>
   </body>
 </html>
