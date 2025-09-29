@@ -11,5 +11,11 @@ function ensureGuest(req, res, next) {
   }
   next();
 }
+function isAuthenticated(req, res, next) {
+  if (req.session.user) {
+    return next();
+  }
+  res.redirect("/auth/login");
+}
 
-module.exports = { ensureAuth, ensureGuest };
+module.exports = { ensureAuth, ensureGuest, isAuthenticated };

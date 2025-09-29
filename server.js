@@ -5,6 +5,8 @@ const { sequelize } = require("./models");
 
 const authRoutes = require("./routes/auth");
 const transactionRoutes = require("./routes/transactionRoutes");
+const userRoutes = require("./routes/userRoutes");
+const budgetRoutes = require("./routes/budgetRoutes");
 
 const app = express();
 
@@ -30,6 +32,8 @@ app.use(
 
 app.use("/auth", authRoutes);
 app.use("/transactions", transactionRoutes);
+app.use("/user", userRoutes);
+app.use("/budgets", budgetRoutes);
 
 app.get("/", (req, res) => {
   res.redirect("/auth/login");
