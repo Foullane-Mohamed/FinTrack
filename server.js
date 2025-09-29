@@ -39,15 +39,6 @@ app.get("/", (req, res) => {
   res.redirect("/auth/login");
 });
 
-sequelize
-  .sync({ force: true })
-  .then(() => {
-    console.log("Database connected successfully - Tables recreated");
-  })
-  .catch((err) => {
-    console.log("Database connection error:", err);
-  });
+sequelize.sync({ force: true });
 
-app.listen(3000, () => {
-  console.log("Server is running on http://localhost:3000");
-});
+app.listen(3000);

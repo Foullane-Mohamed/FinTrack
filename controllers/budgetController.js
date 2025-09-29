@@ -1,12 +1,16 @@
 const budgetService = require("../services/budgetService");
 
-exports.getBudget = async (req, res) => {
+exports.getBudget = async (req, res, next) => {
   budgetService
     .getBudgets(req.session.user.id)
     .then((budgets) => {
       res.render("budgets/index", { budgets });
     })
     .catch(next);
+};
+
+exports.renderCreateBudget = async (req, res) => {
+  res.render("budgets/create");
 };
 
 exports.createBudget = async (req, res, next) => {
