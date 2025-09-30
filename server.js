@@ -7,6 +7,7 @@ const authRoutes = require("./routes/auth");
 const transactionRoutes = require("./routes/transactionRoutes");
 const userRoutes = require("./routes/userRoutes");
 const budgetRoutes = require("./routes/budgetRoutes");
+const goalRoutes = require("./routes/goal");
 
 const app = express();
 
@@ -34,11 +35,12 @@ app.use("/auth", authRoutes);
 app.use("/transactions", transactionRoutes);
 app.use("/user", userRoutes);
 app.use("/budgets", budgetRoutes);
+app.use("/goals", goalRoutes);
 
 app.get("/", (req, res) => {
   res.redirect("/auth/login");
 });
 
-sequelize.sync({ force: true });
+sequelize.sync();
 
 app.listen(3000);

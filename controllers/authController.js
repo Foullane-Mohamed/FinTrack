@@ -1,7 +1,7 @@
 const { registerUser, loginUser } = require("../services/authService");
 
 const register = async (req, res) => {
-  try {
+
     const { username, email, password, currency } = req.body;
     const user = await registerUser(username, email, password, currency);
 
@@ -12,13 +12,11 @@ const register = async (req, res) => {
     };
 
     res.redirect("/auth/dashboard");
-  } catch (error) {
-    res.render("auth/register", { error: error.message });
-  }
+
 };
 
 const login = async (req, res) => {
-  try {
+
     const { email, password } = req.body;
     const user = await loginUser(email, password);
 
@@ -29,9 +27,7 @@ const login = async (req, res) => {
     };
 
     res.redirect("/auth/dashboard");
-  } catch (error) {
-    res.render("auth/login", { error: error.message });
-  }
+
 };
 
 const logout = (req, res) => {
