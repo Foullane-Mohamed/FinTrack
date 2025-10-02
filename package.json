@@ -33,7 +33,9 @@
     "sequelize": "^6.37.7"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.13",
     "autoprefixer": "^10.4.21",
+    "chokidar": "^4.0.3",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.13"
   }

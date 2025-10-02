@@ -36,6 +36,11 @@
               class="text-blue-600 hover:text-blue-800 px-3 py-1 rounded hover:bg-blue-50"
               >View Budgets</a
             >
+            <a
+              href="/categories"
+              class="text-blue-600 hover:text-blue-800 px-3 py-1 rounded hover:bg-blue-50"
+              >Manage Categories</a
+            >
           </nav>
         </div>
 
@@ -44,23 +49,33 @@
             <label class="block text-sm font-medium text-gray-700 mb-2"
               >Category</label
             >
-            <input
-              type="text"
-              name="category"
+            <select
+              name="CategoryId"
               required
-              placeholder="e.g., Food, Transportation, Entertainment"
               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-colors"
-            />
+            >
+              <option value="">Select Category</option>
+              <% if (categories && categories.length > 0) { %>
+                <% categories.forEach(category => { %>
+                  <option value="<%= category.id %>"><%= category.name %></option>
+                <% }); %>
+              <% } %>
+            </select>
+            <% if (!categories || categories.length === 0) { %>
+              <p class="text-sm text-gray-500 mt-1">
+                No categories found. <a href="/categories/create" class="text-blue-600 hover:underline">Create categories first</a>
+              </p>
+            <% } %>
           </div>
 
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2"
-              >Amount</label
+              >Budget Limit</label
             >
             <input
               type="number"
               step="0.01"
-              name="amount"
+              name="limitAmount"
               required
               placeholder="0.00"
               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-colors"
@@ -73,10 +88,9 @@
             >
             <select
               name="month"
-              required
               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-colors"
             >
-              <option value="">Select Month</option>
+              <option value="">All months</option>
               <option value="January">January</option>
               <option value="February">February</option>
               <option value="March">March</option>
@@ -89,6 +103,22 @@
               <option value="October">October</option>
               <option value="November">November</option>
               <option value="December">December</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2"
+              >Year</label
+            >
+            <select
+              name="year"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-colors"
+            >
+              <option value="">Current year</option>
+              <% const currentYear = new Date().getFullYear(); %>
+              <% for(let year = currentYear; year <= currentYear + 2; year++) { %>
+                <option value="<%= year %>" <%= year === currentYear ? 'selected' : '' %>><%= year %></option>
+              <% } %>
             </select>
           </div>
 

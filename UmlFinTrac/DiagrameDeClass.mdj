@@ -1264,15 +1264,6 @@
 											"model": {
 												"$ref": "AAAAAAGZcasItl09/9g="
 											},
-											"font": "Arial;13;0",
-											"parentStyle": true,
-											"left": 757,
-											"top": 387,
-											"width": 125.64892578125,
-											"height": 13,
-											"text": "+currentAmount: float",
-											"horizontalAlignment": 0
-										},
 										{
 											"_type": "UMLAttributeView",
 											"_id": "AAAAAAGZcastkF1Hzn8=",
@@ -2788,9 +2779,7 @@
 							"_id": "AAAAAAGZcasItl09/9g=",
 							"_parent": {
 								"$ref": "AAAAAAGZcZ50clz+3mY="
-							},
-							"name": "currentAmount",
-							"type": "float"
+							}
 						},
 						{
 							"_type": "UMLAttribute",

@@ -1,20 +1,19 @@
 const userService = require("../services/userService");
 
-exports.getProfile = async (req, res, next) => {
+exports.getProfile = async (req, res) => {
   const user = await userService.getProfile(req.session.user.id);
-  res.render("users/profile", { user: user, error: undefined });
+  res.render("users/profile", { user, error: undefined });
 };
 
-exports.updateProfile = async (req, res, next) => {
-  await userService.updateProfile(req.session.user.id, req.body);
-  const updatedUser = await userService.getProfile(req.session.user.id);
+exports.updateProfile = async (req, res) => {
+  const updatedUser = await userService.updateProfile(req.session.user.id, req.body);
   req.session.user = updatedUser;
   res.redirect("/user/profile");
 };
 
-exports.deleteProfile = async (req, res, next) => {
+exports.deleteProfile = async (req, res) => {
   await userService.deleteProfile(req.session.user.id);
-  req.session.destroy((err) => {
+  req.session.destroy(() => {
     res.redirect("/auth/login");
   });
 };

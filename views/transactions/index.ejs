@@ -59,11 +59,7 @@
                 >
                   Date
                 </th>
-                <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b"
-                >
-                  Category
-                </th>
+            
                 <th
                   class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b"
                 >
@@ -87,11 +83,7 @@
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   <%= new Date(transaction.date).toDateString() %>
                 </td>
-                <td
-                  class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                >
-                  <%= transaction.category %>
-                </td>
+              
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <span
                     class="px-2 py-1 text-xs rounded-full <%= transaction.type === 'income' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>"

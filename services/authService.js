@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const { Op } = require("sequelize");
 const User = require("../models/User");
 
-const registerUser = async (username, email, password, currency = "MAD") => {
+async function registerUser(username, email, password, currency = "MAD") {
   const existingUser = await User.findOne({
     where: {
       [Op.or]: [{ email }, { username }],
@@ -28,20 +28,14 @@ const registerUser = async (username, email, password, currency = "MAD") => {
     email: user.email,
     currency: user.currency,
   };
-};
+}
 
-const loginUser = async (email, password) => {
+async function loginUser(email, password) {
   const user = await User.findOne({ where: { email } });
-
-  if (!user) {
-    throw new Error("Invalid email or password");
-  }
+  if (!user) throw new Error("Invalid email or password");
 
   const isValidPassword = await bcrypt.compare(password, user.password);
-
-  if (!isValidPassword) {
-    throw new Error("Invalid email or password");
-  }
+  if (!isValidPassword) throw new Error("Invalid email or password");
 
   return {
     id: user.id,
@@ -49,7 +43,7 @@ const loginUser = async (email, password) => {
     email: user.email,
     currency: user.currency,
   };
-};
+}
 
 module.exports = {
   registerUser,

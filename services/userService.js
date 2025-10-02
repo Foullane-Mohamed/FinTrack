@@ -2,12 +2,13 @@ const { User } = require("../models");
 const bcrypt = require("bcrypt");
 
 async function getProfile(userId) {
-  return await User.findByPk(userId);
+  const user = await User.findByPk(userId);
+  if (!user) throw new Error("User not found");
+  return user;
 }
 
 async function updateProfile(userId, profileData) {
-  const user = await User.findByPk(userId);
-  if (!user) throw new Error("User not found");
+  const user = await getProfile(userId);
 
   const updateData = {
     username: profileData.username,
@@ -24,8 +25,7 @@ async function updateProfile(userId, profileData) {
 }
 
 async function deleteProfile(userId) {
-  const user = await User.findByPk(userId);
-  if (!user) throw new Error("User not found");
+  const user = await getProfile(userId);
   await user.destroy();
   return true;
 }

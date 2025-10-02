@@ -44,14 +44,15 @@
             <tbody class="bg-white divide-y divide-gray-200">
               <% budgets.forEach(budget => { %>
               <tr class="hover:bg-gray-50">
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= budget.category %></td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$<%= budget.amount %></td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= budget.month || 'Not specified' %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= budget.Category ? budget.Category.name : 'Unknown Category' %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$<%= budget.limitAmount ? budget.limitAmount.toFixed(2) : '0.00' %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= budget.month || 'All months' %></td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <form action="/budgets/update/<%= budget.id %>" method="POST" class="inline-flex items-center space-x-2">
-                    <input type="text" name="category" value="<%= budget.category %>" required 
-                           class="w-24 px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500" />
-                    <input type="number" step="0.01" name="amount" value="<%= budget.amount %>" required 
+                    <select name="CategoryId" required class="w-32 px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500">
+                      <option value="<%= budget.CategoryId %>"><%= budget.Category ? budget.Category.name : 'Select Category' %></option>
+                    </select>
+                    <input type="number" step="0.01" name="limitAmount" value="<%= budget.limitAmount %>" required 
                            class="w-20 px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500" />
                     <select name="month" class="w-24 px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500">
                       <option value="">Month</option>
@@ -83,7 +84,6 @@
       <% } else { %>
         <div class="text-center py-12">
           <p class="text-gray-500 text-lg">No budgets created yet.</p>
-          <a href="/budgets/create" class="mt-4 inline-block bg-purple-500 hover:bg-purple-600 text-white font-medium py-2 px-4 rounded">Create Your First Budget</a>
         </div>
       <% } %>
     </div>

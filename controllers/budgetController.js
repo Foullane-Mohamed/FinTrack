@@ -1,41 +1,26 @@
 const budgetService = require("../services/budgetService");
 
-exports.getBudget = async (req, res, next) => {
-  budgetService
-    .getBudgets(req.session.user.id)
-    .then((budgets) => {
-      res.render("budgets/index", { budgets });
-    })
-    .catch(next);
+exports.getBudget = async (req, res) => {
+  const data = await budgetService.getBudgetsWithUser(req.session.user);
+  res.render("budgets/index", data);
 };
 
 exports.renderCreateBudget = async (req, res) => {
-  res.render("budgets/create");
+  const data = await budgetService.getCategoriesWithUser(req.session.user);
+  res.render("budgets/create", data);
 };
 
-exports.createBudget = async (req, res, next) => {
-  budgetService
-    .createBudget(req.session.user.id, req.body)
-    .then(() => {
-      res.redirect("/budgets");
-    })
-    .catch(next);
+exports.createBudget = async (req, res ) => {
+  await budgetService.createBudget(req.session.user.id, req.body);
+  res.redirect("/budgets");
 };
 
-exports.updateBudget = async (req, res, next) => {
-  budgetService
-    .updateBudget(req.params.id, req.session.user.id, req.body)
-    .then(() => {
-      res.redirect("/budgets");
-    })
-    .catch(next);
+exports.updateBudget = async (req, res) => {
+  await budgetService.updateBudget(req.params.id, req.session.user.id, req.body);
+  res.redirect("/budgets");
 };
 
-exports.deleteBudget = async (req, res, next) => {
-  budgetService
-    .deleteBudget(req.params.id, req.session.user.id)
-    .then(() => {
-      res.redirect("/budgets");
-    })
-    .catch(next);
+exports.deleteBudget = async (req, res) => {
+  await budgetService.deleteBudget(req.params.id, req.session.user.id);
+  res.redirect("/budgets");
 };
