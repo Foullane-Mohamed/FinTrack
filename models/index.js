@@ -6,7 +6,6 @@ const Budget = require("./Budget");
 const SavingsGoal = require("./SavingsGoal");
 const Category = require("./Category");
 
-// User associations
 User.hasMany(Transaction);
 Transaction.belongsTo(User);
 
@@ -19,7 +18,6 @@ SavingsGoal.belongsTo(User);
 User.hasMany(Category);
 Category.belongsTo(User);
 
-// Category associations
 Category.hasMany(Transaction);
 Transaction.belongsTo(Category);
 
